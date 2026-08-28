@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+  before_action :check_admin, except: [:index, :show]
   def new
     @product = Product.new
   end
@@ -27,9 +28,9 @@ class ProductsController < ApplicationController
   def update
     @product = Product.find(params[:id])
      if @product.update(product_params)
-       redirect_to product_path # 商品詳細にリダイレクト
+       redirect_to product_path 
      else
-       render :edit  # 失敗時に編集画面に戻る
+       render :edit 
      end
    end
 
@@ -43,4 +44,11 @@ def destroy
   def product_params
    params.require(:product).permit(:name, :description, :price)
   end
+
+  def check_admin
+       unless current_user.admin_flg
+         redirect_to products_path, alert: '管理者権限が必要です。'
+       end
+      end
+     
 end

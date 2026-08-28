@@ -1,13 +1,12 @@
 Rails.application.routes.draw do
-  get 'products/new'
-  post 'products', to: 'products#create'
+  get "mypage/show"
+  devise_for :users
+  
   root to: "homes#top"
-  get 'products', to: 'products#index'
-  get 'products/:id', to: 'products#show', as: 'product'
-  get 'products/:id/edit', to: 'products#edit', as: 'edit_product'
-  patch 'products/:id', to: 'products#update'
-  delete 'products/:id', to: 'products#destroy', as: 'destroy_product'
-
+  
+  resources :products
+  
+  resources :mypage, only: [:show]
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
