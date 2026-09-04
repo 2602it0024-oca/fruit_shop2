@@ -1,32 +1,32 @@
 class OrdersController < ApplicationController
   def new
     @order = Order.new 
-    @product = Product.find(params[:product_id])   # URLから商品を取得
+    @product = Product.find(params[:product_id])   
   end
   
   def index
-    @orders = current_user.orders.all # ユーザーに紐付いた注文履歴を表示
+    @orders = current_user.orders.all 
   end
 
-  # 注文内容の確認画面
+
   def confirm
-    @order = Order.new(order_params)          # フォームから送信された注文情報を取得
-    @product = Product.find(order_params[:product_id]) # 注文対象の商品を取得
+    @order = Order.new(order_params)        
+    @product = Product.find(order_params[:product_id]) 
 
     if @order.valid?
         @order.total_price = cal_total_price(@product.price, @order.count) # 合計金額を計算して設定
       else
-      # バリデーションNGなら入力画面に戻る
+      
         render :new and return
     end
   end
   
-  # 注文登録
+ 
   def create
     @order = Order.new(order_params)
     @order.user_id = current_user.id
     
-    # 注文が正常に保存できた場合
+    
     if @order.save
       redirect_to complete_order_path(@order)     # 登録が完了したら注文完了ページへ遷移
     else
@@ -35,7 +35,7 @@ class OrdersController < ApplicationController
     end
   end
 
-  # 注文完了
+  
   def complete
     @order = Order.find(params[:id])
     @product = Product.find(@order.product_id)
@@ -48,6 +48,5 @@ class OrdersController < ApplicationController
   end
 
   def cal_total_price(price, count)
-    return price * count  # 商品価格と個数を掛けて合計金額を返す
-  end
+    return price * count  
 end
