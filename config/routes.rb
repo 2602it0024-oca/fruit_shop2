@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  resources :orders, only: [:index, :new, :create] do 
+    collection do
+       post :confirm
+  end
+  
+  member do
+     get :complete 
+   end
+ end
   get "mypage/show"
   devise_for :users
   
