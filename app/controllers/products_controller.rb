@@ -18,6 +18,8 @@ class ProductsController < ApplicationController
  end
 
  def index
+    puts JSON.pretty_generate(params.to_unsafe_h) 
+
     @products = Product.all
  end
 
@@ -42,7 +44,7 @@ def destroy
 
  private
   def product_params
-   params.require(:product).permit(:name, :description, :price)
+   params.require(:product).permit(:name, :description, :price, :photo)
   end
 
   def check_admin

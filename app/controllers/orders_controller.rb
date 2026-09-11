@@ -10,7 +10,7 @@ class OrdersController < ApplicationController
 
 
   def confirm
-    @order = Order.new(order_params)        
+    @order = current_user.orders.build(order_params)
     @product = Product.find(order_params[:product_id]) 
 
     if @order.valid?
@@ -23,9 +23,7 @@ class OrdersController < ApplicationController
   
  
   def create
-    @order = Order.new(order_params)
-    @order.user_id = current_user.id
-    
+    @order = current_user.orders.build(order_params)
     
     if @order.save
       redirect_to complete_order_path(@order)     # 登録が完了したら注文完了ページへ遷移
@@ -49,4 +47,5 @@ class OrdersController < ApplicationController
 
   def cal_total_price(price, count)
     return price * count  
+  end
 end
