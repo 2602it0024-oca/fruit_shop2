@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :check_admin, except: [:index, :show]
+  before_action :check_admin, except: [ :index, :show ]
   def new
     @product = Product.new
   end
@@ -10,15 +10,15 @@ class ProductsController < ApplicationController
       redirect_to products_path
     else
       render :new, status: :unprocessable_entity
-   end
+    end
   end
- 
+
  def show
      @product = Product.find(params[:id])
  end
 
  def index
-    puts JSON.pretty_generate(params.to_unsafe_h) 
+    puts JSON.pretty_generate(params.to_unsafe_h)
 
     @products = Product.all
  end
@@ -30,16 +30,16 @@ class ProductsController < ApplicationController
   def update
     @product = Product.find(params[:id])
      if @product.update(product_params)
-       redirect_to product_path 
+       redirect_to product_path
      else
-       render :edit 
+       render :edit
      end
    end
 
 def destroy
      @product = Product.find(params[:id])
      @product.destroy
-     redirect_to products_path 
+     redirect_to products_path
    end
 
  private
@@ -49,8 +49,7 @@ def destroy
 
   def check_admin
        unless current_user.admin_flg
-         redirect_to products_path, alert: '管理者権限が必要です。'
+         redirect_to products_path, alert: "管理者権限が必要です。"
        end
       end
-     
 end

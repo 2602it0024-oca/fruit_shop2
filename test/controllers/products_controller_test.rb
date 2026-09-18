@@ -2,7 +2,8 @@ require "test_helper"
 
 class ProductsControllerTest < ActionDispatch::IntegrationTest
   test "should get new" do
-    get products_new_url
+    sign_in users(:one)
+    get new_product_url
     assert_response :success
   end
 end

@@ -1,21 +1,33 @@
 Rails.application.routes.draw do
-  resources :orders, only: [:index, :new, :create] do 
+  resources :orders, only: [ :index, :new, :create ] do
     collection do
-       post :confirm
+      post :confirm
+    end
+
+    member do
+      get :complete
+    end
+  end
+
+  root to: "homes#top"
+
+  resources :carts, only: [ :show, :index ] do
+    collection do
+      post :add_product
+    end
+
+    member do
+      delete :remove_item
+      post :update_quantity
+    end
   end
   
-  member do
-     get :complete 
-   end
- end
-  get "mypage/show"
+  #get "mypage/show"
   devise_for :users
-  
-  root to: "homes#top"
-  
+
   resources :products
-  
-  resources :mypage, only: [:show]
+
+  resources :mypage, only: [ :show ]
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
