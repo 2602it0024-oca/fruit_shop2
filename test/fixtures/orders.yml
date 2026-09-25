@@ -1,15 +1,15 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  count: 1
-  total_price: 1
-  address: MyString
+  count: 2
+  total_price: 600
+  address: Tokyo
   product: one
   user: one
 
 two:
   count: 1
-  total_price: 1
-  address: MyString
+  total_price: 10000
+  address: Osaka
   product: two
-  user: two
+  user: one

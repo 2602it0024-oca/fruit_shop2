@@ -1,6 +1,6 @@
 <h1>商品詳細</h1>
 
-<div>
+<div class="product-detail-card">
 
   <% if @product.photo.attached? %>
     <%= image_tag @product.thumbnail %>
@@ -12,14 +12,19 @@
   <p>価格: <%= @product.price %>円</p>
 </div>
 
-<% if current_user.admin_flg == true %>
+<% if user_signed_in? && current_user.admin_flg == true %>
   <%= link_to "編集", edit_product_path(@product) %>
 
   <br>
 
   <%= link_to '削除', product_path(@product),  data: { turbo_method: :delete, turbo_confirm: '本当に削除しますか？' } %>
+<% elsif user_signed_in? %>
+  <%= form_with url: add_item_user_cart_path, method: :post, local: true do |form| %>
+    <%= hidden_field_tag :product_id, @product.id %>
+    <%= form.label :quantity, "個数" %>
+    <%= number_field_tag :quantity, 1, min: 1 %>
+    <%= form.submit "ユーザーカートに追加" %>
+  <% end %>
 <% else %>
-  
-  <%= link_to '注文する', new_order_path(product_id:@product.id) %>
-
+  <%= link_to "ログイン", new_user_session_path %>
 <% end %>
