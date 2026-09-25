@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  description: MyText
-  price: 1
+  name: Apple
+  description: 青森産
+  price: 300
 
 two:
-  name: MyString
-  description: MyText
-  price: 1
+  name: Melon
+  description: 夕張産
+  price: 10000

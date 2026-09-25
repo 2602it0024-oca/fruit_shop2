@@ -2,6 +2,7 @@ class Product < ApplicationRecord
   validates :name, presence: true, uniqueness: true  
   validates :price, presence: true 
   has_many :orders
+  has_many :cart_items, dependent: :destroy
   
   has_one_attached :photo
   

@@ -1,0 +1,36 @@
+<h1>ユーザーカートの中身</h1>
+
+<% if @cart_items.any? %>
+  <table class="cart-table">
+    <thead>
+      <tr>
+        <th>商品名</th>
+        <th>個数</th>
+        <th>単価</th>
+        <th>小計</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @cart_items.each do |cart_item| %>
+        <% product = cart_item.product %>
+        <tr>
+          <td><%= link_to product.name, product_path(product) %></td>
+          <td>
+            <%= button_to "-", user_cart_update_item_path(cart_item), method: :patch, params: { delta: -1 }, class: "cart-qty-btn" %>
+            <span><%= cart_item.quantity %></span>
+            <%= button_to "+", user_cart_update_item_path(cart_item), method: :patch, params: { delta: 1 }, class: "cart-qty-btn" %>
+          </td>
+          <td><%= product.price %>円</td>
+          <td><%= product.price * cart_item.quantity %>円</td>
+          <td><%= button_to "カートから消す", user_cart_destroy_item_path(cart_item), method: :delete %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <p class="cart-total">合計金額: <%= @total_price %>円</p>
+  <%= link_to "注文へ進む", new_order_path, class: "cart-order-link" %>
+<% else %>
+  <p>カートは空です。</p>
+<% end %>

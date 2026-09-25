@@ -14,6 +14,11 @@ Rails.application.routes.draw do
   root to: "homes#top"
   
   resources :products
+  resource :user_cart, only: [:show], controller: :user_carts do
+    post :add_item
+    patch "items/:id", to: "user_carts#update_item", as: :update_item
+    delete "items/:id", to: "user_carts#destroy_item", as: :destroy_item
+  end
   
   resources :mypage, only: [:show]
 
