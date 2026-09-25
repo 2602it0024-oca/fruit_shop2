@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
 
 before_action :configure_permitted_parameters, if: :devise_controller?
 before_action :store_recent_product
+before_action :prepare_cart, if: :user_signed_in?
 
 include PriceCalculations
 
@@ -15,6 +16,7 @@ def after_sign_in_path_for(resource)
  end
 
  def after_sign_out_path_for(resource)
+  session.delete(:cart_merged)
   root_path
  end
 
@@ -31,6 +33,20 @@ protected
   end
 
 private
+
+def prepare_cart
+  return if session[:cart_merged] || current_user.admin_flg?
+  cart = Cart.find_or_create_by(user_id: current_user.id)
+  return if !session[:cart]  
+  session[:cart].each do |item|
+  cart_item = cart.cart_items.find_or_initialize_by(product_id: item["id"])
+  cart_item.quantity += item["count"].to_i 
+  cart_item.save
+end
+    session.delete(:cart)
+    session[:cart_merged] = true
+end
+
 def store_recent_product
   if params[:controller] == "products" && params[:action] == "show"
     product_id = params[:id].to_i

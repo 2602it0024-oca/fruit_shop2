@@ -1,8 +1,10 @@
 class CartsController < ApplicationController
   def index
-    session[:cart] ||= []
-    @products = Product.all.index_by(&:id)
+    if session[:cart].present?
+     product_ids = session[:cart].map { |item| item["id"] }
+     @products = Product.where(id: product_ids).index_by(&:id)
   end
+end
 
    def add_product
     session[:cart] ||= []
@@ -43,6 +45,11 @@ class CartsController < ApplicationController
     redirect_to carts_path, notice: "商品がカートから削除されました。"
   end
 
+  
+  def show
+  @cart = Cart.find_by(user_id: current_user.id) 
+  user_cart_calculation
+end
 
   def remove_item
     product_id = params[:id].to_i

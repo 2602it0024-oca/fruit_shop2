@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   end
 
   root to: "homes#top"
+  get "cart/show"
+  get "cart/index"
 
   resources :carts, only: [ :show, :index ] do
     collection do
@@ -41,4 +43,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  
+  resources :cart_items, only: [:create, :update, :destroy]
+
 end

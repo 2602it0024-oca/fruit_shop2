@@ -3,3 +3,4 @@ class HomesController < ApplicationController
       @products = Product.all
   end
 end
+
